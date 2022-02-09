@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<ul>
+    <li>{{data.make}}</li>
+    <li>{{data.model_name}}</li>
+    <li>{{data.year}}</li>
+    <li>{{data.condition}}</li>
+    <li>{{data.asking_price}}</li>
+    <li>Seller Details<ul>
+        <li>Name: {{data.Seller_Info.first_name}} {{data.Seller_Info.last_name}}</li>
+        <li>Mobile: {{data.Seller_Info.phone_no}}</li>
+    </ul></li>
+</ul>
+<form method="post">{% csrf_token %}
+<input type="submit" value="Buy Car">
+</form>
+
+{% endblock content %}

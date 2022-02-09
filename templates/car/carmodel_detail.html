@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if user.purpose != "buyer" %}
+{% if object.sold %}
+    <li><a href="{% url 'makeavailable' object.id %}">MakeAvailable</a></li>
+    <li><a href="{% url 'update' object.id %}">edit</a></li>
+    <li><a href="{% url 'delete' object.id %}">delete</a></li>
+    {% else %}
+    <li><a href="{% url 'update' object.id %}">edit</a></li>
+    <li><a href="{% url 'delete' object.id %}">delete</a></li>
+    {% endif %}
+    {% else %}
+    {% if object.sold %}
+    <li><button disabled>Sold</a></li>
+    {% else %}
+    <li><a href="{% url 'buy' object.id %}">BuyCar</a></li>
+    {% endif %}
+    {% endif %}
+
+<ul>
+    <!-- Iterate over object_list -->
+    <li>{{object.make}}</li>
+    <li>{{object.model_name}}</li>
+    <li>{{object.year}}</li>
+    <li>{{object.condition}}</li>
+    <li>{{object.asking_price}}</li>
+    <li>{{object.Seller_Info.email}}</li>
+    <li>{{object.Seller_Info.phone_no}}</li>
+</ul>
+
+{% endblock content %}

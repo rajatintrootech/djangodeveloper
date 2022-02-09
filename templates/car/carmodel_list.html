@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+<div><input id="search" type="text" placeholder="search ex: make:makename or model:modelname"><button onclick="SearchList(this)">Search</button></div>
+{% if user.purpose != "buyer" %}
+<div><a href="{% url 'create' %}">List New Car</a></div>
+    {% endif %}
+<ul>
+    <!-- Iterate over object_list -->
+    {% for object in object_list %}
+    <!-- Display Objects -->
+    <li><a href="{% url 'detail' object.id %}">{{ object.make }}</a></li>
+    <li>{{ object.model_name }}</li>
+    {% if object.sold %}
+    <li><button disabled>Sold</a></li>
+    {% else %}
+    <li><a href="{% url 'buy' object.id %}">BuyCar</a></li>
+    {% endif %}
+    {% if user.purpose != "buyer" %}
+    {% if object.sold %}
+    <li><a href="{% url 'makeavailable' object.id %}">MakeAvailable</a></li>
+    <li><a href="{% url 'update' object.id %}">edit</a></li>
+    <li><a href="{% url 'delete' object.id %}">delete</a></li>
+    {% else %}
+    <li><a href="{% url 'update' object.id %}">edit</a></li>
+    <li><a href="{% url 'delete' object.id %}">delete</a></li>
+    {% endif %}
+    {% endif %}
+    
+ 
+    <hr/>
+    <!-- If object_list is empty  -->
+    {% empty %}
+    <li>No objects yet.</li>
+    {% endfor %}
+</ul>
+{% if is_paginated %}
+<ul class="pagination">
+{% if page_obj.has_previous %}
+    <li>
+        <span><a href="?page={{ page_obj.previous_page_number }}">Previous</a></span>
+    </li>
+{% endif %}
+    <li class="">
+        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</span>
+    </li>
+{% if page_obj.has_next %}
+    <li>
+        <span><a href="?page={{ page_obj.next_page_number }}">Next</a></span>
+    </li>
+{% endif %}
+</ul>
+{% endif %}
+{% endblock content %}
